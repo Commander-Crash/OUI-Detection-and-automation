@@ -105,8 +105,6 @@ while (1)
 #		foreach my $cli (keys %clients)
 #		{
 #			print "Found client ($cli) connected to $chans{$clients{$cli}}[1] ($clients{$cli}, channel $chans{$clients{$cli}}[0])\n";
-#			#sudo ("omxplayer", "-o", "local","--vol", "600", "/root/OUI-Detect/bluealert.ogg");
-#			#Put code to blink a led 2 times on GPIO 21 for the raspberry pi.
 #			
 			#Unmark to activate Deauth upon Detection.
 			#Hop onto the channel of the ap
