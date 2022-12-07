@@ -76,12 +76,18 @@ while (1)
 						{
 							print "CHANNEL $1 $2 $3\n";
 							$chans{$1} = [$2, $3];
-							#Put Code for alert HERE for each diffrent type of mac address it finds
+							if ($oui_match) {
+							#Sense-hat Config: If you dont have one add "#" to this line or del it
+  						  	my $message = "MESSAGE TEXT: $oui_match";
+    							my $sense = new SenseHat;
+    							$sense->show_message($message);
+							$sense->show_message($message, text_colour => [255, 0, 0]);
 						
 						}
 
 						# grab our device MAC and owner MAC
-						if (/^([\w:]+).*\s($dev:[\w:]+),/)
+						if (/^([\w:]+).*\s($dev:[\w:]+),/) # best so far that i can think of
+						#if (/^([\w:]+).*\s(?<dev>\b[\w:]+)\b.*(?<oui>[\w]{6})/) #please find a better way
 						{
 
 							print "CLIENT $1 $2\n";
