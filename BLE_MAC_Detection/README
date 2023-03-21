@@ -1,0 +1,9 @@
+This script is used to scan for BLE devices and find the MAC address that matches a provided argument. 
+
+To use the script: 
+1. Make sure that bluetooth is enabled on your device
+2. Open up a terminal window and cd into the directory containing the script
+3. Run the command:  ./ble.sh --mac <MAC_ADDRESS> 
+4. If a match is found, ""BLE Mac found: <MAC_ADDRESS>" will print out in the terminal.
+
+The script works by temporarily turning off and then turning back on Bluetooth (hciconfig hci0 down/up) and running an hcitool lescan for 10 seconds (timeout 10 stdbuf -oL hcitool lescan). The output of the lescan includes all the MAC addresses from devices found in the area and this is saved to the log file ble.log. The MAC address provided as an argument is compared with each MAC address in the log for a match and if one exists then "BLE Mac found: <MAC_ADDRESS>" prints out in the terminal. Otherwise, "No matching MAC address found in scan" prints out. You can put a custom command once mac is found like play a .wav file just replace # INSERT_CUSTOM_COMMAND_HERE # with your cmd.
